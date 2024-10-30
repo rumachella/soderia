@@ -1,0 +1,7 @@
+.modal-body-scroll {
+    max-height: 720px; /* Ajusta la altura según tus necesidades */
+    overflow-y: auto; /* Agrega barra de desplazamiento vertical si el contenido excede la altura */
+}
+main {
+    margin-left: 300px; /* Ajusta según el ancho de tu sidebar */
+}

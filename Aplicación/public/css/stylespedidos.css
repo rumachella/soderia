@@ -1,0 +1,15 @@
+
+.pedidostabla{
+    overflow-y: auto;
+    height: 550px;
+}
+.table {
+    width: 100%; 
+    table-layout: fixed; 
+}
+
+.divBotonesOrd{
+display: flex;
+justify-content: end;
+align-items: end;
+}
