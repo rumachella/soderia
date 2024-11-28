@@ -13,7 +13,7 @@
 <body>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark fixed-sidebar">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="panel.html" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <i class="fa-solid fa-house"></i>  <span class="fs-5 d-none d-sm-inline m-2"> INICIO</span>
@@ -28,22 +28,32 @@
                         <li><a href="listaclientes.html" class="nav-link px-0 align-middle active"><i class="fa fa-users"></i> <span class="ms-1 d-none d-sm-inline">Listado de Clientes</span></a></li>
                         <li><a href="informeventas.html" class="nav-link px-0 align-middle"><i class="fa fa-chart-line"></i> <span class="ms-1 d-none d-sm-inline">Informes de Ventas</span></a></li>
                         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                        <li><a href="indexlogin.html" class="nav-link px-0 align-middle" onclick="confirmarCerrarSesion(evento)"><i class="fa-solid fa-right-from-bracket"></i> <span class="ms-1 d-none d-sm-inline">Cerrar sesión</span></a></li>
+                        <li><a href="index.html" class="nav-link px-0 align-middle" onclick="confirmarCerrarSesion(evento)"><i class="fa-solid fa-right-from-bracket"></i> <span class="ms-1 d-none d-sm-inline">Cerrar sesión</span></a></li>
                     </ul>
                 </div>
             </div>
             <main class="col px-4">
                 
-                <h1>Listado de Clientes</h1>
+                <h1 class="mt-4">Listado de Clientes</h1>
+                <div class="more-info">
+                    <button class="botonañadir btn btn-success btn-lg  m-2" data-bs-toggle="modal" data-bs-target="#addClientModal">
+                    Agregar Cliente <i class="fa-solid fa-plus"></i>
+                </button>
+                </div>
                <!-- FILTRADO -->
         <label for="filtroClientes" class="h3">Filtrar por nombre,apellido,dirección o teléfono</label>
         <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
-        <!-- AGREGAR CLIENTE -->
-        <div class="more-info">
-            <button class="botonañadir btn btn-primary mt-2 " data-bs-toggle="modal" data-bs-target="#addClientModal">
-            Agregar Cliente <i class="fa-solid fa-plus"></i>
-        </button>
+        <div class="d-flex">
+            <h4 class="m-2">Filtrar por estado: </h4>
+        <div class="btn-group mt-2" role="group" aria-label="Filtro de clientes">
+            <button class="btn btn-secondary" onclick="filtrarClientes('todos')">Todos</button>
+            <button class="btn btn-success" onclick="filtrarClientes('activos')">Activos</button>
+            <button class="btn btn-danger" onclick="filtrarClientes('inactivos')">Inactivos</button>
         </div>
+        </div>
+        
+        <!-- AGREGAR CLIENTE -->
+        
                         <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -52,6 +62,7 @@
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>Dirección</th>
+                                <th>Barrio</th>
                                 <th>Teléfono</th>
                                 <th>Acciones</th>
                             </tr>
@@ -90,6 +101,17 @@
                         <div class="mb-3">
                             <label for="modificarDireccion" class="form-label">Dirección</label>
                             <input type="text" class="form-control" id="modificarDireccion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agregarBarrio" class="form-label">Barrio *</label>
+                            <select class="form-select" id="agregarBarrio" required>
+                                <option value="" selected disabled>Seleccione un barrio</option>
+                                <option value="Centro">Centro</option>
+                                <option value="Nueva Córdoba">Nueva Córdoba</option>
+                                <option value="Alberdi">Alberdi</option>
+                                <option value="General Paz">General Paz</option>
+                                <option value="Villa Urquiza">Villa Urquiza</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="modificarTelefono" class="form-label">Teléfono</label>
@@ -172,6 +194,18 @@
                         <input autocomplete="on" autocomplete="on" type="text" class="form-control" id="agregarDireccion" required>
                     </div>
                     <div class="mb-3">
+                        <label for="nuevoBarrio" class="form-label">Barrio *</label>
+                        <select class="form-select" id="nuevoBarrio"required>
+                            <option value="" selected disabled>Seleccione un barrio</option>
+                            <option value="Centro">Centro</option>
+                            <option value="Nueva Córdoba">Nueva Córdoba</option>
+                            <option value="Alberdi">Alberdi</option>
+                            <option value="General Paz">General Paz</option>
+                            <option value="Villa Urquiza">Villa Urquiza</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
                         <label for="modificarTelefono" class="form-label">Teléfono *</label>
                         <input autocomplete="on" type="text" class="form-control" id="agregarTelefono" required>
                     </div>
@@ -193,6 +227,12 @@
             </div>
         </div>
     </div>
+    <div id="customAlert" class="custom-alert" style="display: none;">
+        ¡Cliente agregado exitosamente!
+      </div>
+      <div id="errorAlert" class="error-alert" style="display: none;">
+        ¡Cliente agregado exitosamente!
+      </div>
     <script src="../scripts/scriptsclientes.js"></script>
 </body>
 </html>

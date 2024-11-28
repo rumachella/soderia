@@ -1,7 +1,7 @@
 function confirmarCerrarSesion(event) {
   event.preventDefault();
   if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-      window.location.href = "indexlogin.html";
+      window.location.href = "index.html";
   }
 }
 

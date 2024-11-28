@@ -14,9 +14,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script></head>
 
 <body>
-    <div class="container-fluid">
+    <style>
+        .construction-container {
+    width: 1500px;
+      text-align: center;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    }
+    .construction-container img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .construction-container h1 {
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .construction-container p {
+      font-size: 1rem;
+      color: #666;
+    }
+    </style>
+    
+     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark -sidebarfixed">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark ">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="panel.html" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <i class="fa-solid fa-house"></i>  <span class="fs-5 d-none d-sm-inline m-2"> INICIO</span>
@@ -71,7 +98,12 @@
                     </ul>
                 </div>
             </div>
-            <main class="col px-4 mt-4">
+            <div class="construction-container">
+                <img src="https://res.cloudinary.com/codier/image/upload/w_384/iai0p5j9cuszzpqxdmws.gif" alt="En construcción">
+                <h1>¡Disculpa las molestias!</h1>
+                <p>Estamos trabajando en ello, próximamente estará disponible.</p>
+              </div>
+            <!-- <main class="col px-4 mt-4">
                 <div class="pagospadre col py-3">
                     <h2 class="text-center">Registro de Ventas</h3>
                     <form class="registrarpago mt-4 w-50">
@@ -231,9 +263,8 @@
                                 <th>Seleccionar</th>
                             </tr>
                         </thead>
-                        <tbody id="tablaClientes">
-                            <!-- Aquí se llenará la tabla dinámicamente -->
-                        </tbody>
+                        <tbody id="tablaClientes"> -->
+                        <!-- </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
@@ -241,7 +272,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </body>
 
 </html>

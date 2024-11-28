@@ -27,6 +27,7 @@ async function obtenerPedidos(orden = 'fecha') {
             fila.innerHTML = `
                 <td id="FilaCliente">${pedido.nombre_cliente}</td>
                 <td>${pedido.direccionEntrega}</td>
+                <td>${pedido.barrio}</td>
                 <td>${pedido.productosAEntregar}</td>
                 <td>${pedido.Total}</td>
                 <td>${new Date(pedido.fechaEntrega).toLocaleDateString("es-AR")}</td> <!-- Formatear la fecha -->
@@ -83,6 +84,7 @@ function seleccionarCliente(id_cliente) {
     if (cliente) {
         document.getElementById("cliente").value = `${cliente.nombre} ${cliente.apellido}`;
         document.getElementById("direccion").value = cliente.direccion;
+        document.getElementById("barrio").value=cliente.barrio
         // Cerrar modal
         const modal = bootstrap.Modal.getInstance(document.getElementById("seleccionarClienteModal"));
         modal.hide();
@@ -224,6 +226,7 @@ async function agregarNuevoPedido() {
     const productosSeleccionados = document.getElementById('productosSeleccionados').value;
     const totalProductos = document.getElementById('totalProductos').value;
     const fechaEntrega = document.getElementById('fecha').value;
+    const barrio = document.getElementById('barrio').value;
 
     const idCliente = await obtenerIdClientePorNombre(nombreCliente);
     console.log('Total de productos:', totalProductos, '| Tipo:', typeof totalProductos);
@@ -236,7 +239,8 @@ async function agregarNuevoPedido() {
             direccionEntrega: direccion,
             productosAEntregar: productosSeleccionados,
             fechaEntrega: fechaEntrega,
-            total: totalDecimal
+            total: totalDecimal,
+            barrio:barrio
         };
         const confirmacion = confirm('¿Está seguro de que desea agregar este pedido?');
         if (confirmacion) {
@@ -334,4 +338,69 @@ document.getElementById("filtroClientes").addEventListener("keyup", function() {
         }
     });
 });
+
+let pedidos = []; // Variable global para almacenar los pedidos
+
+
+async function obtenerPedidos(orden = 'fecha') {
+    try {
+        const response = await fetch('http://localhost:3000/pedidosnombre'); // Asegúrate de que la URL es correcta
+        if (!response.ok) {
+            throw new Error('Error al obtener los pedidos');
+        }
+        pedidos = await response.json(); // variable global para pedidos
+
+        // Obtener las fechas desde y hasta
+        const fechaDesde = document.getElementById('fechaDesde').value;
+        const fechaHasta = document.getElementById('fechaHasta').value;
+
+        // Filtrar los pedidos por fecha
+        if (fechaDesde || fechaHasta) {
+            pedidos = pedidos.filter(pedido => {
+                const fechaEntrega = new Date(pedido.fechaEntrega);
+                const fechaDesdeDate = fechaDesde ? new Date(fechaDesde) : null;
+                const fechaHastaDate = fechaHasta ? new Date(fechaHasta) : null;
+
+                // Verificar si el pedido está dentro del rango de fechas
+                if (fechaDesdeDate && fechaEntrega < fechaDesdeDate) return false; // Si la fecha de entrega es menor que la fecha desde
+                if (fechaHastaDate && fechaEntrega > fechaHastaDate) return false; // Si la fecha de entrega es mayor que la fecha hasta
+
+                return true;
+            });
+        }
+
+        // Ordenar los pedidos según el criterio
+        if (orden === 'fecha') {
+            pedidos.sort((a, b) => new Date(a.fechaEntrega) - new Date(b.fechaEntrega));
+        } else if (orden === 'precio') {
+            pedidos.sort((a, b) => b.Total - a.Total); 
+        } else if (orden === 'cliente') {
+            pedidos.sort((a, b) => a.nombre_cliente.localeCompare(b.nombre_cliente));
+        }
+
+        const tablaPedidos = document.getElementById('tablaPedidos');
+        tablaPedidos.innerHTML = ''; 
+
+        // Iterar sobre cada pedido y crear una fila en la tabla
+        pedidos.forEach(pedido => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td id="FilaCliente">${pedido.nombre_cliente}</td>
+                <td>${pedido.direccionEntrega}</td>
+                <td>${pedido.barrio}</td>
+                <td>${pedido.productosAEntregar}</td>
+                <td>${pedido.Total}</td>
+                <td>${new Date(pedido.fechaEntrega).toLocaleDateString("es-AR")}</td> <!-- Formatear la fecha -->
+            `;
+            tablaPedidos.appendChild(fila);
+        });
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error);
+    }
+}
+
+// Escuchar cambios en los campos de fecha para filtrar automáticamente
+document.getElementById('fechaDesde').addEventListener('change', () => obtenerPedidos());
+document.getElementById('fechaHasta').addEventListener('change', () => obtenerPedidos());
+
 

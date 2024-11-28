@@ -62,7 +62,7 @@
                         </li>
                         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <li>
-                            <a href="indexlogin.html" class="nav-link px-0 align-middle" onclick="confirmarCerrarSesion(event)">
+                            <a href="index.html" class="nav-link px-0 align-middle" onclick="confirmarCerrarSesion(event)">
                                 <i class="fa-solid fa-right-from-bracket"></i> <span class="ms-1 d-none d-sm-inline">Cerrar sesión</span>
                             </a>
                         </li>
@@ -72,26 +72,44 @@
             <main class="col">
                 <div class="content-container">
                     <h2 class="text-center">Próximos Pedidos</h2>
-                    <button class="btn btn-success btn-lg  m-2 " data-bs-toggle="modal" data-bs-target="#nuevoPedidoModal">Agregar Nuevo Pedido</button>
+                    <button class="btn btn-success btn-lg  m-2 " data-bs-toggle="modal" data-bs-target="#nuevoPedidoModal">Agregar Nuevo Pedido <i class="fa-solid fa-plus"></i></button>
                     
                     <div class="seccionBuscar">
                         <label for="filtroClientes" class="h3">Buscar cliente</label>
                         <input class="form-control w-50" id="filtroClientes" type="text" placeholder="Buscar..">
-                        <div class="divBotonesOrd w-25">
-                        <select class="form-select mt-4" id="OrdenarSelect">
-                            <option value="" disabled selected>Ordenar por...</option>
+                        <div class="divBotonesOrd w-50 gap:5px" id="filtropedido">
+                            <select class="form-select mt-4 w-25" id="OrdenarSelect">
+                            <option value="" disabled selected>Ordenar por</option>
                             <option value="fecha">Fecha</option>
                             <option value="precio">Precio</option>
                             <option value="cliente">Cliente</option>
-                        </select>
+                            </select>
+                            <div id="filtroFecha" class="d-flex">
+                                <div>
+                                  <label for="fechaDesde" class="h4">Fecha desde:</label>
+                                 <input type="date" id="fechaDesde" name="fechaDesde">
+                                </div>
+                            <div>
+                                <label for="fechaHasta" class="h4">Fecha hasta:</label>
+                                <input type="date" id="fechaHasta" name="fechaHasta">
+                            </div>
+                        </div>
                     </div>
+                    <div class="btn-group mt-2" id="grupoBTN" role="group" aria-label="Filtro de pedidos">
+                        <button class="btn btn-secondary" onclick="filtrarPedidos('todos')">Todos</button>
+                        <button class="btn btn-success" onclick="filtrarPedidos('entregados')">Entregados</button>
+                        <button class="btn btn-danger" onclick="filtrarPedidos('sinEntregar')">Sin entregar</button>
+                        
+                    </div>
+                
                     <div class="pedidostabla w-95">
                         <table class="table table-striped table-hover mt-4 table-bordered w-95">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Cliente</th>
-                                    <th>Dirección de Entrega</th>
-                                    <th>Cantidad de Entregas</th>
+                                    <th>Dirección </th>
+                                    <th>Barrio</th>
+                                    <th>Productos</th>
                                     <th>Total $</th>
                                     <th>Fecha</th>
                                 </tr>
@@ -125,6 +143,10 @@
                         <div class="mb-3">
                             <label for="direccion" class="form-label"><strong>Dirección de Entrega</strong></label>
                             <input type="text" class="form-control" id="direccion" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="barrio" class="form-label"><strong>Barrio</strong></label>
+                            <input type="text" class="form-control" id="barrio" readonly>
                         </div>
                         <!-- Productos -->
                         <div id="productosContainer">

@@ -45,7 +45,7 @@ app.post('/login', (req, res) => {
     });
 });
 app.get('/clientes', (req, res) => {
-    const query = 'SELECT nombre, apellido, dni, mail, direccion, telefono, estado, id_cliente FROM cliente'; 
+    const query = 'SELECT nombre, apellido, dni, mail, direccion, telefono, estado, id_cliente, barrio FROM cliente'; 
   
     db.query(query, (error, results) => {
         if (error) {
@@ -59,9 +59,9 @@ app.get('/clientes', (req, res) => {
 
 app.post('/clientes', (req, res) => {
     const nuevoCliente = req.body;
-    const query = 'INSERT into cliente (nombre,apellido,telefono,dni,direccion,mail) values (?,?,?,?,?,?)'; 
+    const query = 'INSERT into cliente (nombre,apellido,telefono,dni,direccion,mail,barrio) values (?,?,?,?,?,?,?)'; 
   
-    db.query(query, [nuevoCliente.nombre, nuevoCliente.apellido, nuevoCliente.telefono, nuevoCliente.dni, nuevoCliente.direccion, nuevoCliente.mail], (error, results) => {
+    db.query(query, [nuevoCliente.nombre, nuevoCliente.apellido, nuevoCliente.telefono, nuevoCliente.dni, nuevoCliente.direccion, nuevoCliente.mail,nuevoCliente.barrio], (error, results) => {
         if (error) {
             console.error('Error en la base de datos:', error);
             return res.status(500).json({ message: 'Error en la base de datos', error: error.message });
@@ -73,7 +73,7 @@ app.post('/clientes', (req, res) => {
 
 app.get('/clientes/:id', (req, res) => {
     const clienteId = req.params.id;
-    const query = 'SELECT nombre, apellido, dni, mail, direccion, telefono, estado FROM cliente WHERE id_cliente = ?';
+    const query = 'SELECT nombre, apellido, dni, mail, direccion, telefono, estado,barrio FROM cliente WHERE id_cliente = ?';
 
     db.query(query, [clienteId], (error, results) => {
         if (error) {
@@ -92,9 +92,9 @@ app.put('/clientes/:id', (req, res) => {
     const clienteId = req.params.id;
     const datosActualizados = req.body;
     const mail = datosActualizados.mail ? datosActualizados.mail : null
-    const query = 'UPDATE cliente SET nombre = ?, apellido = ?, telefono = ?, dni = ?, direccion = ?, mail = ? WHERE id_cliente = ?';
+    const query = 'UPDATE cliente SET nombre = ?, apellido = ?, telefono = ?, dni = ?, direccion = ?, mail = ?, barrio = ? WHERE id_cliente = ?';
 
-    db.query(query, [datosActualizados.nombre, datosActualizados.apellido, datosActualizados.telefono, datosActualizados.dni, datosActualizados.direccion, mail, clienteId], (error, results) => {
+    db.query(query, [datosActualizados.nombre, datosActualizados.apellido, datosActualizados.telefono, datosActualizados.dni, datosActualizados.direccion, mail, datosActualizados.barrio, clienteId], (error, results) => {
         if (error) {
             console.error('Error en la base de datos:', error);
             return res.status(500).json({ message: 'Error en la base de datos', error: error.message });
@@ -131,6 +131,27 @@ app.put('/clientes/:id/estado', (req, res) => {
         res.json({ message: 'Estado del cliente actualizado correctamente' });
     });
 });
+// Endpoint para obtener clientes por estado
+app.get('/clientes/estado/:estado', (req, res) => {
+    const estado = parseInt(req.params.estado);
+
+    // Validar que el estado sea 0 o 1
+    if (estado !== 0 && estado !== 1) {
+        return res.status(400).json({ message: 'El estado debe ser 0 (inactivo) o 1 (activo).' });
+    }
+
+    const query = 'SELECT nombre, apellido, dni, mail, direccion, telefono, estado, id_cliente FROM cliente WHERE estado = ?';
+
+    db.query(query, [estado], (error, results) => {
+        if (error) {
+            console.error('Error en la base de datos:', error);
+            return res.status(500).json({ message: 'Error en la base de datos', error: error.message });
+        }
+
+        res.json(results);
+    });
+});
+
 
 
 
@@ -274,10 +295,10 @@ app.get('/pedidos/:id', (req, res) => {
 
 // Crear un nuevo pedido
 app.post('/pedidos', (req, res) => {
-    const { id_cliente, direccionEntrega, productosAEntregar, fechaEntrega, total } = req.body;
-    const query = 'INSERT INTO pedido (id_cliente, direccionEntrega, productosAEntregar, fechaEntrega, Total) VALUES (?, ?, ?, ? , ?)';
+    const { id_cliente, direccionEntrega, productosAEntregar, fechaEntrega, total,barrio } = req.body;
+    const query = 'INSERT INTO pedido (id_cliente, direccionEntrega, productosAEntregar, fechaEntrega, Total, barrio) VALUES (?, ?, ?, ? , ?, ?)';
 
-    db.query(query, [id_cliente, direccionEntrega, productosAEntregar, fechaEntrega, total], (error, results) => {
+    db.query(query, [id_cliente, direccionEntrega, productosAEntregar, fechaEntrega, total,barrio], (error, results) => {
         if (error) {
             console.error('Error en la base de datos:', error);
             return res.status(500).json({ message: 'Error en la base de datos', error: error.message });
@@ -290,7 +311,7 @@ app.post('/pedidos', (req, res) => {
 app.put('/pedidos/:id', (req, res) => {
     const pedidoId = req.params.id;
     const { id_cliente, direccionEntrega, productosAEntregar, fechaEntrega, total } = req.body;
-    const query = 'UPDATE pedido SET id_cliente = ?, direccionEntrega = ?, productosAEntregar = ?, fechaEntrega = ? , total = ? WHERE id_pedido = ?';
+    const query = 'UPDATE pedido SET id_cliente = ?, direccionEntrega = ?, productosAEntregar = ?, fechaEntrega = ? , total = ?, barrio=? WHERE id_pedido = ?';
 
     db.query(query, [id_cliente, direccionEntrega, productosAEntregar, fechaEntrega,total, pedidoId], (error, results) => {
         if (error) {
@@ -315,7 +336,8 @@ app.get('/pedidosnombre', (req, res) => {
             p.direccionEntrega, 
             p.productosAEntregar, 
             p.fechaEntrega,
-            p.Total
+            p.Total,
+            p.barrio
         FROM 
             pedido p 
         JOIN 
