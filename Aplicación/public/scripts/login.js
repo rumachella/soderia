@@ -17,7 +17,6 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
       const result = await response.json();
       //MANEJO DE LAS RESPUESTAS
       if (response.ok) {
-          alert('Login exitoso');
           window.location.href = '../html/panel.html';
       } else {
           document.getElementById('error-message').style.display = 'block';

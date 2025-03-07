@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 fila.innerHTML = `
                     <td class="${pedido.id_pedido}" id="${pedido.id_pedido}" style=background-color: ${rowColor};">${nombreCliente || 'Cliente no encontrado'}</td>
                     <td class="${pedido.id_pedido}" id="${pedido.id_pedido}" style="background-color: ${rowColor};">${pedido.direccionEntrega}</td>
+                    <td class="${pedido.id_pedido}" id="${pedido.id_pedido}" style="background-color: ${rowColor};">${pedido.barrio || 'Sin barrio'}</td>
                     <td class="${pedido.id_pedido}" id="${pedido.id_pedido}" style="background-color: ${rowColor};">${pedido.productosAEntregar}</td>
                     <td class="${pedido.id_pedido} d-flex" id="${pedido.id_pedido}" style="background-color: ${rowColor};">
                     <label class="checkbox-btn">

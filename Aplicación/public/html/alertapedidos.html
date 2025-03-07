@@ -56,11 +56,16 @@
                             </a>
                         </li>
                         <li>
+                            <a href="barrios.html" class="nav-link px-0 align-middle">
+                                <i class="fas fa-map-marker-alt"></i> <span class="ms-1 d-none d-sm-inline">Barrios</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="informeventas.html" class="nav-link px-0 align-middle">
                                 <i class="fa fa-chart-line"></i> <span class="ms-1 d-none d-sm-inline">Informes de Ventas</span>
                             </a>
                         </li>
-                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <li>
                             <a href="index.html" class="nav-link px-0 align-middle" onclick="confirmarCerrarSesion(event)">
                                 <i class="fa-solid fa-right-from-bracket"></i> <span class="ms-1 d-none d-sm-inline">Cerrar sesión</span>
@@ -95,12 +100,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="btn-group mt-2" id="grupoBTN" role="group" aria-label="Filtro de pedidos">
-                        <button class="btn btn-secondary" onclick="filtrarPedidos('todos')">Todos</button>
-                        <button class="btn btn-success" onclick="filtrarPedidos('entregados')">Entregados</button>
-                        <button class="btn btn-danger" onclick="filtrarPedidos('sinEntregar')">Sin entregar</button>
+                    <div class="d-flex">
+                        <h4 class="mt-2" style="margin-right: 20px;">Mostrar:</h4>
+                        <div class="btn-group mt-2" id="grupoBTN" role="group" aria-label="Filtro de pedidos">
+                            <button class="btn btn-secondary" onclick="mostrarTodos()">Todos</button>
+                            <button class="btn btn-success" onclick="filtrarPedidos('0')">Entregados</button>
+                            <button class="btn btn-danger" onclick="filtrarPedidos('1')">Sin entregar</button>
+                            
+                        </div>
+                        <h5 id="parrafoTipo" class="mt-2" style="margin-left: 20px;"></h5>
                         
                     </div>
+                   
                 
                     <div class="pedidostabla w-95">
                         <table class="table table-striped table-hover mt-4 table-bordered w-95">
@@ -112,6 +123,8 @@
                                     <th>Productos</th>
                                     <th>Total $</th>
                                     <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaPedidos">
@@ -224,6 +237,56 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modificarPedidoModal" tabindex="-1" aria-labelledby="modificarPedidoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modificarPedidoModalLabel">Modificar Pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formModificarPedido">
+                        <input type="hidden" id="idPedidoModificar">
+                        <div class="mb-3">
+                            <label for="clienteModificar" class="form-label"  readonly><strong>Cliente</strong></label>
+                            <select id="clienteModificar" class="form-select"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="direccionModificar" class="form-label"><strong>Dirección de Entrega</strong></label>
+                            <input type="text" class="form-control" id="direccionModificar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="barrioModificar" class="form-label"><strong>Barrio</strong></label>
+                            <input type="text" id="barrioModificar" class="form-control" readonly>
+                                
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productosModificar" class="form-label"><strong>Productos</strong></label>
+                            <textarea class="form-control" id="productosModificar" readonly></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="totalModificar" class="form-label"><strong>Total $</strong></label>
+                            <input type="number" class="form-control" id="totalModificar" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fechaModificar" class="form-label"><strong>Fecha de Entrega</strong></label>
+                            <input type="date" class="form-control" id="fechaModificar" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="guardarModificacion()">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="customAlert" class="custom-alert" style="display: none;">
+        ¡Cliente agregado exitosamente!
+      </div>
+      <div id="errorAlert" class="error-alert" style="display: none;">
+        ¡Cliente agregado exitosamente!
+      </div>
 </div>
     <script src="../scripts/scriptpanel.js" ></script>
     <script src="../scripts/scriptpedido.js" ></script>

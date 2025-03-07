@@ -13,6 +13,33 @@
 </head>
 
 <body>
+    <style>
+        .construction-container {
+    width: 1500px;
+      text-align: center;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    }
+    .construction-container img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .construction-container h1 {
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .construction-container p {
+      font-size: 1rem;
+      color: #666;
+    }
+    </style>
+    
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -49,10 +76,15 @@
                                 <i class="fa fa-users"></i> <span class="ms-1 d-none d-sm-inline">Listado de Clientes</span> </a>
                         </li>
                         <li>
+                            <a href="barrios.html" class="nav-link px-0 align-middle">
+                                <i class="fas fa-map-marker-alt"></i> <span class="ms-1 d-none d-sm-inline">Barrios</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="informeventas.html" class="nav-link px-0 align-middle">
                                 <i class="fa fa-chart-line"></i> <span class="ms-1 d-none d-sm-inline">Informes de Ventas</span> </a>
                         </li>
-                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <li>
                             <a href="indexlogin.html" class="nav-link px-0 align-middle" onclick="confirmarCerrarSesion(evento)">
                                 <i class="fa-solid fa-right-from-bracket"></i> <span class="ms-1 d-none d-sm-inline">Cerrar sesión</span> </a>
@@ -60,8 +92,12 @@
                     </ul>
                 </div>
             </div>
-            <main class="col">
-                <div class="content-container">
+                <div class="construction-container">
+                    <img src="https://res.cloudinary.com/codier/image/upload/w_384/iai0p5j9cuszzpqxdmws.gif" alt="En construcción">
+                    <h1>¡Disculpa las molestias!</h1>
+                    <p>Estamos trabajando en ello, próximamente estará disponible.</p>
+                  </div>
+                <!-- <div class="content-container">
                     <h2 class="text-center">GENERAR RECIBO</h2>
                     <form id="formularioRecibo" class="formulario-recibo rounded-4">
                         <div class="mb-3">
@@ -92,8 +128,7 @@
                         </div>
                         <button type="button" class="btn btn-primary" onclick="generarRecibo()">Generar Recibo</button>
                     </form>
-                </div>
-            </main>
+                </div> -->
         </div>
     </div>
 </body>

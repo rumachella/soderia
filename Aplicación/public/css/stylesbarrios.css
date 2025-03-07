@@ -1,0 +1,146 @@
+.contenedor-grilla {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-height: 720px;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+.header-contenedor {
+    display: flex;
+    align-items: center; /* Alinear verticalmente */
+    justify-content: space-between; /* Distribuir espacio entre el h3 y el botón */
+    /* Opcional: Añade algo de espacio */
+  }
+  
+  .header-contenedor h3 {
+    margin: 0 auto; /* Centra el h3 dentro del espacio disponible */
+    text-align: center; /* Asegura que el texto dentro del h3 esté centrado */
+    flex-grow: 1; /* Hace que el h3 use todo el espacio posible */
+  }
+  
+  .header-contenedor button {
+    margin-left: auto; /* Empuja el botón a la derecha */
+  }
+  
+.tabla-barrio {
+    border: 1px solid #3b4cca;
+    border-radius: 10px;
+    padding: 10px;
+    width: 300px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contenido-tabla {
+    max-height: 118px;
+    overflow-y: auto;
+}
+
+.tabla-barrio h3 {
+    text-align: center;
+    color: #3b4cca;
+    margin-bottom: 10px;
+}
+
+.tabla-barrio table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-barrio th, .tabla-barrio td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabla-barrio th {
+    background-color: #3b4cca;
+    color: white;
+    text-align: center;
+}
+
+.tabla-barrio tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tabla-barrio tr:hover {
+    background-color: #ddd;
+}
+
+
+.modal-header{
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-dialog.modal-lg {
+    max-width: 70%; /* Aumenta el ancho del modal */
+    max-height: 700px; /* Altura máxima */
+}
+
+.modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+}
+.modal-title{
+    font-size: large;
+}
+.modal-body {
+    max-height: calc(700px - 100px); /* Resta el espacio de header y footer */
+    overflow-y: auto; /* Scroll vertical si es necesario */
+}
+
+
+    .modal-dialog.modal-lg {
+        max-width: 90%;
+        max-height: 700px;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 8px 124px rgb(0, 0, 0);
+    }
+
+    .modal-body {
+        max-height: calc(660px - 100px);
+        overflow-y: auto;
+        padding: 15px;
+        font-size: 20px;
+    }
+    .botonAgregar{
+        margin-left: 5px;
+    }
+    .more-info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .table  {
+        width: 100%;
+        border-collapse: collapse;
+    }
+ 
+
+    .table th,
+    .table td {
+        text-align: center;
+        padding: 12px;
+        border: 1px solid #ddd;
+    }
+    
+
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .table td {
+        font-size: 20px;
+    }
+

@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -50,10 +51,15 @@
                                 <i class="fa fa-users"></i> <span class="ms-1 d-none d-sm-inline">Listado de Clientes</span> </a>
                         </li>
                         <li>
+                            <a href="barrios.html" class="nav-link px-0 align-middle">
+                                <i class="fas fa-map-marker-alt"></i> <span class="ms-1 d-none d-sm-inline">Barrios</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="informeventas.html" class="nav-link px-0 align-middle">
                                 <i class="fa fa-chart-line"></i> <span class="ms-1 d-none d-sm-inline">Informes de Ventas</span> </a>
                         </li>
-                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <li>
                             <a href="indexlogin.html" class="nav-link px-0 align-middle" onclick="confirmarCerrarSesion(event)">
                                 <i class="fa-solid fa-right-from-bracket"></i> <span class="ms-1 d-none d-sm-inline">Cerrar sesión</span> </a>
@@ -69,7 +75,8 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Cliente</th>
-                                <th>Dirección de Entrega</th>
+                                <th>Dirección</th>
+                                <th>Barrio</th>
                                 <th>Productos a entregar</th>
                                 <th>Entregado</th>
                             </tr>

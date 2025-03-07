@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchClientes();
   });
-  
+                                                                //? fetch para traer los clientes
   async function fetchClientes() {
     try {
       const response = await fetch('http://localhost:3000/clientes');
@@ -64,6 +64,8 @@ function resetearCampos() {
   document.getElementById('agregarDNI').value = '';
   document.getElementById('agregarMail').value = '';
   document.getElementById('nuevoBarrio').value = '';
+  document.getElementById('barrioSelect').value="";
+  
 }
 
 document.getElementById('guardarCliente').addEventListener('click', function () {
@@ -130,102 +132,136 @@ if (!barrio || barrio === "") {
         });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("http://localhost:3000/barrios")
+        .then(response => response.json())
+        .then(data => {
+            const selectBarrio = document.getElementById("agregarBarrio");
+            selectBarrio.innerHTML = '<option value="" disabled selected>Seleccione un barrio</option>'; // Opción por defecto
+            
+            data.forEach(barrio => {
+                const option = document.createElement("option");
+                option.value = barrio.id; // Guardamos el ID del barrio
+                option.textContent = barrio.barrio; // Mostramos el nombre del barrio
+                selectBarrio.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error al obtener barrios:", error));
+});
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("http://localhost:3000/barrios")
+        .then(response => response.json())
+        .then(data => {
+            const selectBarrio = document.getElementById("nuevoBarrio");
+            selectBarrio.innerHTML = '<option value="" disabled selected>Seleccione un barrio</option>'; // Opción por defecto
+            
+            data.forEach(barrio => {
+                const option = document.createElement("option");
+                option.value = barrio.id; // Guardamos el ID del barrio
+                option.textContent = barrio.barrio; // Mostramos el nombre del barrio
+                selectBarrio.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error al obtener barrios:", error));
+});
+
 function alertaExito(message) {
     const alertElement = document.getElementById('customAlert');
     
-    // Cambiar el mensaje
     alertElement.textContent = message;
     
-    // Mostrar la alerta
+   
     alertElement.style.display = 'block';
     alertElement.classList.add('show');
   
-    // Ocultar la alerta después de 0.5 segundos
+   
     setTimeout(() => {
       alertElement.classList.remove('show');
       setTimeout(() => {
         alertElement.style.display = 'none';
-      }, 300); // Tiempo para el efecto de transición
-    }, 1750); // 0.5 segundos
+      }, 300); 
+    }, 1750); 
   }
 
   function alertaError(message) {
     const alertElement = document.getElementById('errorAlert');
     
-    // Cambiar el mensaje
     alertElement.textContent = message;
     
-    // Mostrar la alerta
+    
     alertElement.style.display = 'block';
     alertElement.classList.add('show');
   
-    // Ocultar la alerta después de 0.5 segundos
     setTimeout(() => {
       alertElement.classList.remove('show');
       setTimeout(() => {
         alertElement.style.display = 'none';
-      }, 300); // Tiempo para el efecto de transición
-    }, 1750); // 0.5 segundos
+      }, 300);
+    }, 1750); 
   }
   
-async function openModifyModal(id_cliente) {
+  async function openModifyModal(id_cliente) {
     try {
-        const response = await fetch(`http://localhost:3000/clientes/${id_cliente}`); 
+        const response = await fetch(`http://localhost:3000/clientes/detalle/${id_cliente}`); 
         const cliente = await response.json();
     
+        // Llena los campos del modal
+        document.getElementById("modificarId").value = cliente.id_cliente;
+        document.getElementById("modificarNombre").value = cliente.nombre;
+        document.getElementById("modificarApellido").value = cliente.apellido;
+        document.getElementById("modificarDireccion").value = cliente.direccion;
+        document.getElementById("modificarTelefono").value = cliente.telefono;
+        document.getElementById("modificarDNI").value = cliente.dni;
+        document.getElementById("modificarMail").value = cliente.mail;
 
-    // Llena los campos del modal
-    document.getElementById("modificarId").value = id_cliente;
-    document.getElementById("modificarNombre").value = cliente.nombre;
-    document.getElementById("modificarApellido").value = cliente.apellido;
-    document.getElementById("modificarDireccion").value = cliente.direccion;
-    document.getElementById("modificarTelefono").value = cliente.telefono;
-    document.getElementById("modificarDNI").value = cliente.dni;
-    document.getElementById("modificarMail").value = cliente.mail;
-
-    const barrioSelect = document.getElementById("agregarBarrio");
+        // Seleccionar el barrio correctamente
+        const barrioSelect = document.getElementById("agregarBarrio");
         Array.from(barrioSelect.options).forEach(option => {
-            option.selected = option.value === cliente.barrio;
+            option.selected = option.value == cliente.barrio_id; // Usa `barrio_id` en lugar del nombre
         });
 
-    // Abre el modal
-    new bootstrap.Modal(document.getElementById("modifyClientModal")).show();
+        // Abre el modal
+        new bootstrap.Modal(document.getElementById("modifyClientModal")).show();
     } catch (error) {
         console.error('Error al abrir el modal de modificación:', error);
     }
-    
 }
 
-// filtrar clientes
+
+//                                                                  ?funcion para buscar por nombre o apellido
 document.getElementById("myInput").addEventListener("keyup", function() {
 
-  const filter = this.value.toLowerCase();
-  const tableBody = document.getElementById("clientTableBody");
-  const rows = tableBody.getElementsByTagName("tr");
-
-
-  for (let i = 0; i < rows.length; i++) {
-      const cells = rows[i].getElementsByTagName("td");
-      let match = false;
-
-      for (let j = 0; j < cells.length; j++) {
-          const cell = cells[j];
-          if (cell) {
-              const textValue = cell.textContent || cell.innerText;
-              if (textValue.toLowerCase().indexOf(filter) > -1) {
-                  match = true; 
-                  break; 
-              }
-          }
-      }
-
-      if (match) {
-          rows[i].style.display = ""; 
-      } else {
-          rows[i].style.display = "none"; 
-      }
-  }
-})
+    const filter = this.value.toLowerCase();
+    const tableBody = document.getElementById("clientTableBody");
+    const rows = tableBody.getElementsByTagName("tr");
+  
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        let match = false;
+  
+        // Suponiendo que el nombre está en la columna 0 y el apellido en la columna 1
+        // Modificar los índices según la estructura de tu tabla
+        const nameCell = cells[1]; // Columna de nombre
+        const surnameCell = cells[2]; // Columna de apellido
+  
+        // Verifica si el nombre o el apellido coincide con el filtro
+        if (nameCell && nameCell.textContent.toLowerCase().indexOf(filter) > -1) {
+            match = true;
+        }
+        if (surnameCell && surnameCell.textContent.toLowerCase().indexOf(filter) > -1) {
+            match = true;
+        }
+  
+        // Muestra o esconde la fila según si hubo coincidencia
+        if (match) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+        contarFilasVisibles();
+    }
+  });
+  
 // Agregar un evento al formulario
 document.getElementById('modifyClientForm').addEventListener('submit', function (event) {
     event.preventDefault(); // Evita la recarga de la página
@@ -279,9 +315,8 @@ document.getElementById('modifyClientForm').addEventListener('submit', function 
         console.error('Error en la petición:', error);
     });
 });
-let currentFilter = 'todos';  // Filtro por defecto
+let currentFilter = 'todos'; 
 
-// Función para obtener el filtro actual
 function getCurrentFilter() {
     return currentFilter;
 }
@@ -315,6 +350,7 @@ function filtrarClientes(filtro) {
                     <td style="background-color: ${rowColor};">${cliente.nombre}</td>
                     <td style="background-color: ${rowColor};">${cliente.apellido}</td>
                     <td style="background-color: ${rowColor};">${cliente.direccion}</td>
+                    <td style="background-color: ${rowColor};">${cliente.barrio}</td>
                     <td style="background-color: ${rowColor};">${cliente.telefono}</td>
                     <td style="background-color: ${rowColor};">
                         <button class="btn btn-primary" onclick="openModifyModal('${cliente.id_cliente}')">
@@ -329,6 +365,7 @@ function filtrarClientes(filtro) {
                     </td>
                 `;
                 clientTableBody.appendChild(row);
+                resetearCampos();
             });
         })
         .catch(error => {
@@ -336,7 +373,7 @@ function filtrarClientes(filtro) {
         });
 }
 
-// Función para dar de alta a un cliente
+//                                                          ?Función para dar de alta a un cliente
 function darDeAlta(idCliente) {
     const confirmar = confirm("¿Desea dar de alta este cliente?");
     if (confirmar) {
@@ -376,7 +413,7 @@ function darDeAlta(idCliente) {
     }
 }
 
-// Función para dar de baja a un cliente
+//                                                          ?Función para dar de baja a un cliente
 function darDeBaja(idCliente) {
     const confirmar = confirm("¿Desea dar de baja este cliente?");
     if (confirmar) {
@@ -415,3 +452,131 @@ function darDeBaja(idCliente) {
         });
     }
 }
+
+  
+  //                                                                ?Función para contar las filas visibles
+function contarFilasVisibles() {
+    const tableBody = document.getElementById("clientTableBody");
+    const rows = tableBody.getElementsByTagName("tr");
+    let filasVisibles = 0;
+  
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].style.display !== "none") { // Solo contar filas visibles
+            filasVisibles++;
+        }
+    }
+    const clientesTotales = document.getElementById("clientesTotales");
+  clientesTotales.textContent = `Cantidad de clientes visibles:${filasVisibles}`;
+    console.log("Cantidad de filas visibles: ", filasVisibles);
+  }
+  
+  // crear un observaodr de dom
+  const observer = new MutationObserver(function(mutationsList, observer) {
+    // Llamar a la función cada vez que haya un cambio en el DOM
+    contarFilasVisibles();
+  });
+  
+  
+  const config = { childList: true, subtree: true };
+  
+  const tableBody = document.getElementById("clientTableBody");
+  observer.observe(tableBody, config);
+  
+  
+  
+  // Obtener los elementos del DOM
+const barrioSelect = document.getElementById("barrioSelect");
+const clientesTotales = document.getElementById("clientesTotales");
+const clientTableBody = document.getElementById("clientTableBody");
+
+// Función para cargar los clientes del barrio seleccionado
+const cargarClientesPorBarrio = async () => {
+    const barrioSeleccionado = barrioSelect.value;
+    
+    // Si no se ha seleccionado un barrio, no hacer nada
+    if (!barrioSeleccionado) {
+        clientesTotales.textContent = '0';
+        clientTableBody.innerHTML = ''; // Limpiar la tabla
+        return;
+    }
+
+    try {
+        // Realizar la solicitud al backend para obtener los clientes del barrio seleccionado
+        const response = await fetch(`http://localhost:3000/clientes/idBarrio/${barrioSeleccionado}`);
+        const clientes = await response.json();
+
+        // Mostrar el número de clientes
+        clientesTotales.textContent = clientes.length;
+
+        // Limpiar la tabla actual
+        clientTableBody.innerHTML = '';
+
+        // Llenar la tabla con los clientes del barrio seleccionado
+        clientes.forEach((cliente) => {
+            const row = document.createElement('tr');
+            row.setAttribute('data-id', cliente.id_cliente);
+
+            // Cambiar color de fila si el cliente está inactivo
+            const rowColor = cliente.estado === 0 ? '#d3d3d3' : '';
+
+            // Botones de dar baja y dar alta
+            const darBajaButtonDisabled = cliente.estado === 0 ? 'disabled' : '';
+            const darAltaButtonDisabled = cliente.estado === 1 ? 'disabled' : '';
+
+            row.innerHTML = `
+                <td style="background-color: ${rowColor};">${cliente.id_cliente}</td>
+                <td style="background-color: ${rowColor};">${cliente.nombre}</td>
+                <td style="background-color: ${rowColor};">${cliente.apellido}</td>
+                <td style="background-color: ${rowColor};">${cliente.direccion}</td>
+                <td style="background-color: ${rowColor};">${cliente.barrio}</td>
+                <td style="background-color: ${rowColor};">${cliente.telefono}</td>
+                <td style="background-color: ${rowColor};">
+                    <button class="btn btn-primary" id="editarBoton" onclick="openModifyModal('${cliente.id_cliente}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger" id="darBajaBoton" ${darBajaButtonDisabled} onclick="darDeBaja('${cliente.id_cliente}')">
+                        <i class="fas fa-user-slash"></i>
+                    </button>
+                    <button class="btn btn-success" id="darAltaBoton" ${darAltaButtonDisabled} onclick="darDeAlta('${cliente.id_cliente}')">
+                        <i class="fas fa-user-check"></i>
+                    </button>
+                </td>
+            `;
+
+            // Añadir la fila a la tabla
+            clientTableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error al obtener los clientes:', error);
+    }
+};
+55
+
+// Escuchar el cambio de selección en el select
+barrioSelect.addEventListener("change", cargarClientesPorBarrio);
+
+// Llamar a la función para cargar los clientes inicialmente (puede estar vacío si no hay un barrio seleccionado)
+cargarClientesPorBarrio();
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const barrioSelect = document.getElementById('barrioSelect');
+    
+    try {
+        // Realiza la solicitud para obtener los barrios
+        const response = await fetch('http://localhost:3000/barrios');
+        if (!response.ok) throw new Error('Error al obtener los barrios');
+        
+        const barrios = await response.json();
+        
+        // Agrega las opciones de barrio al select
+        barrios.forEach(barrio => {
+            const option = document.createElement('option');
+            option.value = barrio.id;
+            option.textContent = barrio.barrio;
+            barrioSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Hubo un error al cargar los barrios');
+    }
+});
